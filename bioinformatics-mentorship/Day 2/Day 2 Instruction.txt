@@ -1,0 +1,104 @@
+Tugas Hands-On: Hari 3
+Tujuan: Membangun model 3D protein target dari sekuens-nya, menguji obat padanya, dan menganalisis hasilnya.
+
+(Anda tidak perlu menginstal apa pun hari ini. Kita akan menggunakan Jupyter Lab hanya untuk visualisasi dan laporan.)
+
+Langkah 1: Dapatkan "Cetak Biru" (Sekuens FASTA)
+
+Buka UniProt (ini adalah database untuk sekuens protein).
+
+Di kotak pencarian, masukkan UniProt ID untuk CDK2 Manusia: P24941
+
+Klik tombol "FASTA" di halaman itu.
+
+Salin (copy) semua teks yang muncul (dimulai dengan >sp|P24941|... dan semua huruf di bawahnya). Ini adalah "cetak biru" kita.
+
+
+Langkah 2: Bangun "Gembok" (Homology Modeling)
+
+Buka SWISS-MODEL.
+
+Klik tombol "Start Modelling".
+
+Tempel (paste) sekuens FASTA yang Anda salin tadi ke dalam kotak "Target Sequence".
+
+Beri nama proyek Anda (misalnya, CDK2_model) dan klik "Search for Templates".
+
+SWISS-MODEL akan mencari PDB untuk "instruksi bangunan" yang mirip. Ini mungkin perlu beberapa menit.
+
+Pilih template terbaik (biasanya yang memiliki "Identity" tertinggi, misal 1fin.1.A).
+
+Klik "Build Model".
+
+Setelah selesai, unduh (download) file PDB dari model 3D yang baru saja Anda buat. Simpan di folder bioinformatics-mentorship Anda (misalnya, cdk2_model.pdb).
+
+
+Langkah 3: Dapatkan "Kunci" (Obat)
+
+Buka PubChem.
+
+Cari Staurosporine.
+
+Di halaman hasilnya, di sisi kanan atas, klik tombol "Download".
+
+Pilih 3D Conformer -> SDF -> Klik "Save".
+
+Simpan file .sdf ini di folder bioinformatics-mentorship Anda (misalnya, staurosporine.sdf).
+
+
+Langkah 4: Uji "Kunci" pada "Gembok" (Docking)
+
+Buka SwissDock.
+
+Di bawah "Target Selection", klik "Choose file" dan unggah cdk2_model.pdb Anda.
+
+Di bawah "Ligand Selection", klik "Choose file" dan unggah staurosporine.sdf Anda.
+
+Masukkan nama pekerjaan (misal, CDK2_docking) dan email Anda (mereka akan mengirimkan link hasil).
+
+Klik "Start Docking".
+
+Ini akan memakan waktu lama (15-30+ menit). Sambil menunggu, Anda bisa mulai mengerjakan Langkah 5.
+
+
+Langkah 5: Laporkan & Visualisasikan (di Jupyter Lab)
+
+Selagi menunggu SwissDock, buka Jupyter Lab Anda.
+
+Buat Notebook baru: DAY_03_Docking.ipynb.
+
+Di Sel 1 (Markdown): Tulis laporan Anda.
+
+## Analisis Docking Hari 3
+
+1.  **Protein Target (Gembok):** Human CDK2 (UniProt ID: P24941)
+2.  **Template PDB:** [Tulis PDB ID template yang digunakan SWISS-MODEL, misal 1fin.1.A]
+3.  **Obat (Kunci):** Staurosporine (dari PubChem)
+4.  **Hasil Docking (FullFitness):** [Biarkan ini kosong dulu]
+Setelah email SwissDock Anda tiba: Buka link hasilnya. Ia akan menunjukkan banyak "pose" (cara menempel).
+
+Temukan cluster (grup) dengan skor "FullFitness" terendah (angka paling negatif). Itulah prediksi ikatan terbaik.
+
+Catat skor itu di Sel Markdown Anda (No. 4).
+
+Unduh file .pdb untuk prediksi terbaik itu (misal, cluster.1.pdb). Simpan di folder Anda.
+
+Di Sel 2 (Code): Gunakan nglview untuk melihat hasil docking Anda.
+
+Python
+
+import nglview as nv
+
+# Ganti nama file dengan nama file hasil download SwissDock Anda
+view = nv.show_file("cluster.1.pdb", ext="pdb")
+view.clear_representations()
+view.add_representation('cartoon', selection='protein')
+view.add_representation('ball+stick', selection='not protein and not water')
+view
+Jalankan sel ini. Anda sekarang akan melihat Gembok YANG ANDA BANGUN dengan Kunci YANG ANDA UJI menempel di dalamnya.
+
+Kirimkan Pekerjaan Anda:
+
+Hentikan server Jupyter (Ctrl+C, y).
+
+Gunakan git untuk mengirimkan semua file baru Anda: git add DAY_03_Docking.ipynb git add cdk2_model.pdb git add staurosporine.sdf git add cluster.1.pdb git commit -m "Tugas Hari 3: SWISS-MODEL dan SwissDock selesai" git push

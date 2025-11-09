@@ -1,0 +1,9 @@
+Date: Sat 08 Nov 2025 12:32:57 
+Ligand: C[NH2+][C@@H]1C[C@H]2O[C@@](C)([C@@H]1OC)N1C3=C(C=CC=C3)C3=C1C1=C(C4=C(C=CC=C4)N21)C1=C3CNC1=O
+Method: AC
+Target: cdk2_model.pdb
+Sampling exhaustivity: 90
+Cavity prioritization: 70
+Random Initial Conditions: 1
+Box size: 20 20 20
+Box center: -10.0 -58.0 -67.0
